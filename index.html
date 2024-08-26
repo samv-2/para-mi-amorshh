@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>De Sau para Meli (el amor de mi vida)</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-image: url('https://i.ytimg.com/vi/y_dYsY8m-PE/oar2.jpg?sqp=-oaymwEiCIEFENAFSFqQAgHyq4qpAxEIARUAAAAAJQAAyEI9AICiQw==&rs=AOn4CLAvSHC6q3k4K4c-is_NvMI23J5kyg');
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+        }
+
+        .container {
+            z-index: 10;
+            max-width: 600px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0); /* Fondo transparente */
+            position: relative;
+        }
+
+        #mainText {
+            font-size: 24px;
+            color: red;
+        }
+
+        .buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        /* Decoración de rosas en los botones */
+        button::before {
+            content: '🌹';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            font-size: 24px;
+        }
+
+        button::after {
+            content: '🌹';
+            position: absolute;
+            bottom: -10px;
+            right: -10px;
+            font-size: 24px;
+        }
+
+        #yesBtn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #noBtn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        #randomText {
+            font-size: 16px;
+            margin-top: 15px;
+            color: red;
+        }
+
+        #finalMessage {
+            font-size: 30px;
+            color: red;
+            display: none; /* Inicialmente oculto */
+            text-align: center;
+        }
+
+        /* Decoración de corazones */
+        .heart {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: pink;
+            transform: rotate(-45deg);
+            animation: float 5s infinite ease-in-out;
+            z-index: 5;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: "";
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: pink;
+            border-radius: 50%;
+        }
+
+        .heart::before {
+            top: -25px;
+            left: 0;
+        }
+
+        .heart::after {
+            left: 25px;
+            top: 0;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(-45deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(-45deg);
+            }
+        }
+
+        /* Posición de corazones aleatoria */
+        .heart:nth-child(1) {
+            top: 10%;
+            left: 20%;
+            animation-delay: 0s;
+        }
+
+        .heart:nth-child(2) {
+            top: 30%;
+            left: 80%;
+            animation-delay: 1s;
+        }
+
+        .heart:nth-child(3) {
+            top: 60%;
+            left: 50%;
+            animation-delay: 2s;
+        }
+
+        .heart:nth-child(4) {
+            top: 80%;
+            left: 10%;
+            animation-delay: 3s;
+        }
+
+        .heart:nth-child(5) {
+            top: 20%;
+            left: 70%;
+            animation-delay: 4s;
+        }
+
+        /* Oculta el iframe de YouTube */
+        iframe {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="mainText">Melissa, ¿verdad que nos vamos a casar, mi amor?</h1>
+        <div class="buttons">
+            <button id="yesBtn">Sí</button>
+            <button id="noBtn">No</button>
+        </div>
+        <div id="randomText"></div>
+        <div id="finalMessage">ya aceptaste, ahora lo vamos a hacer, gracias por hacerme el hombre más feliz mi niñita preshosha <3</div>
+    </div>
+
+    <!-- Corazones decorativos -->
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+    <div class="heart"></div>
+
+    <!-- Reproductor de YouTube (oculto) -->
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/_R3B2Xr8kwQ?autoplay=1&loop=1&playlist=_R3B2Xr8kwQ" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const randomTextDiv = document.getElementById('randomText');
+        const mainText = document.getElementById('mainText');
+        const finalMessage = document.getElementById('finalMessage');
+        const buttonsDiv = document.querySelector('.buttons');
+
+        const texts = [
+            "¿Por qué no?",
+            "Ya ves como eres...",
+            "Ssss malita...",
+            "Pooooorrrfiissss...",
+            "Pooorfiss mi niña...",
+            "Te prometo que te voy a dar mucho amor e hijitos...",
+            "Pero si yo te amo musho"
+        ];
+
+        noBtn.addEventListener('click', () => {
+            // Incrementa el tamaño del botón "Sí" en un 30%
+            const currentSize = parseFloat(window.getComputedStyle(yesBtn).fontSize);
+            yesBtn.style.fontSize = (currentSize * 1.3) + 'px';
+
+            // Muestra un texto aleatorio
+            const randomIndex = Math.floor(Math.random() * texts.length);
+            randomTextDiv.textContent = texts[randomIndex];
+        });
+
+        yesBtn.addEventListener('click', () => {
+            // Cambia la imagen de fondo al hacer clic en "Sí"
+            document.body.style.backgroundImage = "url('https://i.pinimg.com/736x/ee/76/79/ee7679e6b8a55c1c9906693c844458c4.jpg')";
+
+            // Cambia el texto principal y ajusta su tamaño
+            mainText.textContent = "";
+            finalMessage.style.display = 'block';
+
+            // Oculta los botones y los textos aleatorios
+            buttonsDiv.style.display = 'none';
+            randomTextDiv.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
